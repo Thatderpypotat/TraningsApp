@@ -1,2 +1,6 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+
+<h1>Välkommen till en träningshemsida</h1>
+
+<form action="?/ifLoggedIn" method="post">
+    <button>Logga in</button>
+</form>

@@ -9,8 +9,8 @@
 
 <form method="post" action="?/create" use:enhance>
     <label for="namn">Ditt användarnamn</label>
-    <input id="namn" type="text" name="Användarnamn">
+    <input id="namn" type="text" name="new_user">
     <label for="passW">Ditt lösenord</label>
-    <input id="passW" type="text" name="Lösenord">
+    <input id="passW" type="text" name="new_pass">
     <button>Skapa användare</button>
 </form>

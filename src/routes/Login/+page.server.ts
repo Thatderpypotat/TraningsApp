@@ -1,7 +1,19 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import type { PageServerLoad } from './$types';
-import { redirect, type Actions } from '@sveltejs/kit';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { prisma } from '$lib';
+import * as crypto from "node:crypto";
+
+function hashPassword(password : string) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+    return { salt, hash };
+}
+
+function validatePassword(inputPassword : string, storedSalt : string, storedHash: string) {
+    const hash = crypto.pbkdf2Sync(inputPassword, storedSalt, 1000, 64, 'sha512').toString('hex');
+    return storedHash === hash;
+}
 
 export const load = (async () => {
     return {};
@@ -13,13 +25,28 @@ export const actions: Actions = {
         let form_username = data.get("UserName")?.toString();
         let form_password = data.get("PassWord")?.toString();
         
-        let database_username = await prisma.user. 
+        let database_user = await prisma.user.findUnique({where:{name:form_username}})
 
+        if(form_username && form_password){
+            if(form_username === database_user?.name){
+                if(validatePassword(form_password, database_user.salt, database_user.youdontknowwhatdisis)){
+                    cookies.set("activeUser", form_username, {secure : false})
+                    throw redirect(307, "/Training")
+                }else{
+                    return fail(400, {form_password: "Fel lösenord"})
+                }
+            }else{
+                return fail(400, {form_username: "Användarnamnet finns inte, vill du registrera istället?"})
+            }
+        }
     },
     reg: async ({cookies}) => {
         let username = cookies.get("username");
         if(!username){
-            throw redirect(303, "/registrera")
+            throw redirect(303, "/registrera");
+        }
+        if(username){
+            return fail(400, {username: "du är redan inloggad"});
         }
     }
         

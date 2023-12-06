@@ -11,6 +11,6 @@
     <label for="namn">Ditt användarnamn</label>
     <input id="namn" type="text" name="new_user">
     <label for="passW">Ditt lösenord</label>
-    <input id="passW" type="text" name="new_pass">
+    <input id="passW" type="password" name="new_pass">
     <button>Skapa användare</button>
 </form>

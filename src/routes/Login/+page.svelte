@@ -12,7 +12,7 @@
     <label for="username">Användarnamn:</label>
     <input id="username" type="text" name="UserName">
     <label for="pass">Lösenord:</label>
-    <input id="pass" type="text" name="Password">
+    <input id="pass" type="password" name="Password">
     <button>Logga in</button>
 </form>
 

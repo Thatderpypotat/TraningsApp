@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { Actions } from '@sveltejs/kit';
+import { redirect, type Actions } from '@sveltejs/kit';
 import { prisma } from '$lib';
 import * as crypto from "node:crypto";
 
@@ -35,6 +35,7 @@ export const actions: Actions = {
                     },
                 })
                 cookies.set("username", new_username, {secure : false})
+                throw redirect(303, "/Training");
             }
         }
 
